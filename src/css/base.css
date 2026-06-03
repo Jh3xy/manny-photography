@@ -1,26 +1,81 @@
 
-*, 
-*::before, 
-*::after { 
-  box-sizing: border-box; margin: 0; padding: 0; 
+/* ── Reset ───────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-html { 
-  scroll-behavior: smooth; 
+html {
+  scroll-behavior: smooth;
 }
 
-body { 
-  background: var(--bg-base); 
-  color: var(--text-primary); 
-  font-family: var(--ff-secondary); 
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--ff-secondary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 img,
-video { 
-  display: block; max-width: 100%; 
+video {
+  display: block;
+  max-width: 100%;
 }
 
-a { 
-  text-decoration: none; color: inherit; 
+svg {
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* ── Scroll Reveal ────────── */
+/* Applied via JS IntersectionObserver in reveal.js */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Focus Management ─────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
 }
 
