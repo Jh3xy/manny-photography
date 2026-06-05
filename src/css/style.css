@@ -1,24 +1,19 @@
 
+
 /* Main Stylesheet */
 
 /* ══════════════ LAYOUT ════════════════ */
 
-/* ── Container ──────────────────────────────────────── */
 .container {
   max-width: var(--container);
   margin: 0 auto;
   padding: 0 var(--gutter);
 }
 
-/* ── Section base ───────────────────────────────────── */
 .section {
   padding: var(--section-pad) var(--gutter);
 }
 
-/* ── Section heading system ─────────────────────────── */
-/* Corner-mark ::before replaces the generic double-dash
-   decoration from the AI Studio mockup. Used on every
-   section label from Identity onward. */
 .section-label {
   font-family: var(--ff-secondary);
   font-size: 11px;
@@ -33,7 +28,7 @@
 }
 
 .section-label::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 50%;
@@ -44,7 +39,6 @@
   border-left: 1.5px solid var(--accent);
 }
 
-/* Section titles use Cormorant — no decoration, typography does the work */
 .section-title {
   font-family: var(--ff-primary);
   font-size: clamp(32px, 4vw, 48px);
@@ -54,7 +48,8 @@
   margin-bottom: 48px;
 }
 
-/* ── Buttons ────────────────────────────────────────── */
+/* ══════════════ BUTTONS ════════════════ */
+
 .btn {
   height: 48px;
   padding: 0 28px;
@@ -74,7 +69,6 @@
   white-space: nowrap;
 }
 
-/* Ghost — fill slides in from left on hover */
 .btn-ghost {
   background: transparent;
   border: 1px solid var(--accent);
@@ -82,7 +76,7 @@
 }
 
 .btn-ghost::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: var(--accent);
@@ -92,12 +86,10 @@
   z-index: 0;
 }
 
-.btn-ghost:hover             { color: var(--bg-base); }
-.btn-ghost:hover::before     { transform: scaleX(1); }
-/* Wrap text in <span> inside .btn-ghost so it stays above the fill layer */
-.btn-ghost span              { position: relative; z-index: 1; }
+.btn-ghost:hover { color: var(--bg-base); }
+.btn-ghost:hover::before { transform: scaleX(1); }
+.btn-ghost span { position: relative; z-index: 1; }
 
-/* Solid */
 .btn-solid {
   background: var(--accent);
   border: 1px solid var(--accent);
@@ -109,15 +101,13 @@
   border-color: var(--accent-hover);
 }
 
-/* Modifier — full width, 52px height. Used in mobile menu + booking form */
 .btn-full {
   width: 100%;
   justify-content: center;
   height: 52px;
 }
 
-
-/* ═════════ NAVBAR ════════════════ */
+/* ══════════════ NAVBAR ════════════════ */
 
 .nav {
   position: fixed;
@@ -133,12 +123,11 @@
 }
 
 .nav.scrolled {
-  background: rgba(18, 18, 19, 0.92);
+  background: rgba(10, 10, 10, 0.92);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
 
-/* ── Wordmark ──────────────────── */
 .nav-wordmark {
   font-family: var(--ff-primary);
   font-size: 15px;
@@ -148,7 +137,6 @@
   color: var(--text-primary);
 }
 
-/* ── Desktop links ──────────────────────────────────── */
 .nav-links {
   display: flex;
   align-items: center;
@@ -161,14 +149,14 @@
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   position: relative;
   padding-bottom: 4px;
   transition: color 0.25s ease;
 }
 
 .nav-link::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0; left: 0;
   width: 0;
@@ -180,7 +168,6 @@
 .nav-link:hover { color: var(--text-primary); }
 .nav-link:hover::after { width: 100%; }
 
-/* ── Mobile toggle ──────────────────────────────────── */
 .menu-btn {
   display: none;
   align-items: center;
@@ -196,7 +183,6 @@
 
 .menu-btn:hover { color: var(--text-primary); }
 
-/* ── Mobile dropdown panel ──────────────────────────── */
 .mobile-menu {
   position: absolute;
   top: 68px; left: 0; right: 0;
@@ -288,15 +274,12 @@
   fill: currentColor;
 }
 
-/* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 768px) {
   .nav-links { display: none; }
   .menu-btn  { display: flex; }
 }
 
-
-
-/* ═════════════ HERO SECTION ════════════════════ */
+/* ══════════════ HERO ════════════════ */
 
 .hero {
   position: relative;
@@ -306,34 +289,69 @@
   background: var(--bg-base);
 }
 
-/* ── Media layer ────────────────────────────────────── */
+/* ── Photo columns ─────────────────────────────────── */
 .hero-media {
   position: absolute;
   inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px; /* hairline gap between columns — editorial */
+  overflow: hidden;
 }
 
-.hero-media video {
-  position: absolute;
-  inset: 0;
+.hero-column {
+  display: flex;
+  flex-direction: column;
+  /* FIX: no height:100% — let images define the column height */
+  will-change: transform;
+}
+
+.hero-column img {
   width: 100%;
-  height: 100%;
+  /* FIX: was height:100% which zoomed into one viewport height per image.
+     Now uses aspect-ratio so images have consistent portrait proportions. */
+  aspect-ratio: 2 / 3;
   object-fit: cover;
+  /* FIX: keeps faces/subjects in frame instead of center-cropping.
+     Swap to 'center 30%' if any specific photo cuts off foreheads. */
+  object-position: center 15%;
+  flex-shrink: 0;
+  display: block;
 }
 
-/* Dark gradient overlay — heavier at the bottom so text sits cleanly */
+/* Speeds staggered so columns feel independent, not synchronised */
+.hero-column-1 { animation: scroll-up 28s linear infinite; }
+.hero-column-2 { animation: scroll-up 38s linear infinite; }
+.hero-column-3 { animation: scroll-up 48s linear infinite; }
+
+/* NOTE: for a perfectly seamless loop, duplicate the <img> set in each
+   column in the HTML (make it 10 images) and change the keyframe to
+   translateY(-50%). With 5 images and -100%, the column resets visibly
+   once every duration. Long durations above reduce how often it resets. */
+@keyframes scroll-up {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-100%); }
+}
+
+/* ── Overlay ────────────────────────────────────────
+   FIX: was 0.88/0.3/0.2 — photos were competing with text.
+   Now heavy at bottom (text area), strong at mid, light at top.
+   Total effect: images read as texture, not subject. ── */
 .hero-media::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(18,18,19,0.88) 0%,
-    rgba(18,18,19,0.3)  50%,
-    rgba(18,18,19,0.2)  100%
+    rgba(10, 10, 10, 0.97) 0%,
+    rgba(10, 10, 10, 0.80) 30%,
+    rgba(10, 10, 10, 0.55) 60%,
+    rgba(10, 10, 10, 0.30) 100%
   );
+  z-index: 1;
 }
 
-/* ── Content block ──────────────────────────────────── */
+/* ── Hero content ────────────────────────────────── */
 .hero-content {
   position: absolute;
   bottom: 3.6rem;
@@ -380,10 +398,9 @@
   color: var(--text-secondary);
   line-height: 1.6;
   margin-top: 16px;
-  max-width: 87%;
+  max-width: 460px;
 }
 
-/* ── CTA row ────────────────────────────────────────── */
 .cta-row {
   display: flex;
   gap: 12px;
@@ -392,49 +409,55 @@
   flex-wrap: wrap;
 }
 
-/* ── Social icons row ───────────────────────────────── */
+@media (max-width: 320px) {
+  .cta-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ── Social sidebar + scroll cue (desktop only) ─── */
 .social-row {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-bottom: 24px;
   align-items: center;
 }
 
-.social-link {
-  display: flex;
-  align-items: center;
-}
+.social-link { display: flex; align-items: center; }
 
 .social-icon {
   width: 14px;
   height: 14px;
-  fill: var(--text-muted);
-  transition: fill 0.2s ease;
+  fill: var(--text-primary);
+  transition: fill 0.25s ease;
 }
 
 .social-link:hover .social-icon { fill: var(--text-primary); }
 
-/* ── Scroll cue ─────────────────────────────────────── */
-
-.scroll-cue-wrap{
+.scroll-cue-wrap {
   position: absolute;
-  bottom: 32px;
+  bottom: clamp(48px, 6vw, 80px);
   right: var(--gutter);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  z-index: 999;
 }
 
 .scroll-cue {
-  width: 2px;
-  height: 40px;
-  background: var(--accent);
-  animation: pulse-cue 2s ease-in-out infinite;
-  z-index: 2;
+  width: 1px;
+  height: 48px;
+  background: var(--text-primary);
+  animation: pulse-cue 2.4s ease-in-out infinite;
 }
 
 @keyframes pulse-cue {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.2; }
+  0%, 100% { opacity: 1;   transform: scaleY(1); }
+  50%       { opacity: 0.2; transform: scaleY(0.6); }
 }
 
-
-
+@media (max-width: 768px) {
+  .scroll-cue-wrap { display: none; }
+}
