@@ -185,11 +185,12 @@
 
 .mobile-menu {
   position: absolute;
-  top: 68px; left: 0; right: 0;
+  top: 0; left: 0; right: 0;
   background: var(--surface-1);
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
-  padding: 24px var(--gutter) 32px;
+  height: 100dvh; 
+  border-bottom-left-radius: 0; 
+  border-bottom-right-radius: 0; 
+  padding: 4rem var(--gutter) 32px;
   transform: translateY(-16px);
   opacity: 0;
   pointer-events: none;
@@ -307,16 +308,14 @@
 }
 
 .hero-column img {
-  width: 100%;
-  /* FIX: was height:100% which zoomed into one viewport height per image.
-     Now uses aspect-ratio so images have consistent portrait proportions. */
   aspect-ratio: 2 / 3;
   object-fit: cover;
-  /* FIX: keeps faces/subjects in frame instead of center-cropping.
-     Swap to 'center 30%' if any specific photo cuts off foreheads. */
   object-position: center 15%;
   flex-shrink: 0;
   display: block;
+  filter: grayscale(100%);
+  transition: filter 0.35s ease;
+  z-index: 9999;
 }
 
 /* Speeds staggered so columns feel independent, not synchronised */
@@ -324,31 +323,28 @@
 .hero-column-2 { animation: scroll-up 38s linear infinite; }
 .hero-column-3 { animation: scroll-up 48s linear infinite; }
 
-/* NOTE: for a perfectly seamless loop, duplicate the <img> set in each
-   column in the HTML (make it 10 images) and change the keyframe to
-   translateY(-50%). With 5 images and -100%, the column resets visibly
-   once every duration. Long durations above reduce how often it resets. */
 @keyframes scroll-up {
   from { transform: translateY(0); }
-  to   { transform: translateY(-100%); }
+  to   { transform: translateY(-50%); }
 }
 
-/* ── Overlay ────────────────────────────────────────
-   FIX: was 0.88/0.3/0.2 — photos were competing with text.
-   Now heavy at bottom (text area), strong at mid, light at top.
-   Total effect: images read as texture, not subject. ── */
+/* ── Overlay ───────── ── */
 .hero-media::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(10, 10, 10, 0.97) 0%,
-    rgba(10, 10, 10, 0.80) 30%,
-    rgba(10, 10, 10, 0.55) 60%,
-    rgba(10, 10, 10, 0.30) 100%
-  );
+  /* Bottom is 90% dark, middle is 60%, top stays at 40% dark */
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.9) 0%, rgba(10, 10, 10, 0.6) 50%, rgba(10, 10, 10, 0.4) 100%);
   z-index: 1;
+}
+.hero-headline, 
+.hero-sub, 
+.hero-label,
+.nav-wordmark, 
+.nav-link,
+.menu-btn {
+  /* Creates a soft, dark blur directly behind the letters */
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8); 
 }
 
 /* ── Hero content ────────────────────────────────── */
@@ -364,6 +360,14 @@
     bottom: clamp(48px, 8vw, 80px);
     max-width: 680px;
   }
+  .hero-media {
+    grid-template-columns: 1fr; /* Change from 3 columns to 1 full-width column */
+  }
+
+  .hero-column-2, 
+  .hero-column-3 {
+    display: none; /* Hide the extra columns so they don't crowd the phone screen */
+  }
 }
 @media (max-width: 320px) {
   .cta-row{
@@ -376,7 +380,7 @@
   font-family: var(--ff-secondary);
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.8em;
   text-transform: uppercase;
   color: var(--text-secondary);
   display: block;
@@ -429,7 +433,7 @@
 .social-icon {
   width: 14px;
   height: 14px;
-  fill: var(--text-primary);
+  fill: var(--text-secondary);
   transition: fill 0.25s ease;
 }
 
@@ -449,7 +453,7 @@
 .scroll-cue {
   width: 1px;
   height: 48px;
-  background: var(--text-primary);
+  background: var(--text-secondary);
   animation: pulse-cue 2.4s ease-in-out infinite;
 }
 
