@@ -713,6 +713,20 @@
   height: 18px;
 }
 
+@media (max-width: 650px) {
+ .work-item-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+ }
+ .work-item-icon svg{
+  width: 15px;
+  height: 15px;
+ }
+}
+
 /* ── Footer / CTA ─────────────────────────── */
 
 .work-footer {
@@ -731,9 +745,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Closed state: invisible + non-interactive.
-     visibility:hidden also hides children from tab order.
-     opacity handles the fade. Both transition together. */
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -862,3 +873,477 @@
   }
 }
  
+
+
+/* ══════════════ SERVICES ════════════════ */
+
+.services {
+  background: var(--surface-1);
+}
+
+.services-header {
+  max-width: var(--container);
+  margin: 0 auto 0;
+}
+
+/* ── Grid ─────────────────────────── */
+
+.services-grid {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px; 
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* ── Card ─────────────────────────── */
+
+.service-card {
+  background: var(--surface-1);
+  padding: 40px 32px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.service-number {
+  font-family: var(--ff-secondary);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.service-name {
+  font-family: var(--ff-primary);
+  font-size: clamp(22px, 2vw, 28px);
+  font-weight: 400;
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.service-desc {
+  font-family: var(--ff-secondary);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin-bottom: 24px;
+  flex-grow: 1; 
+}
+
+/* ── Detail list ─────────────────────────── */
+
+.service-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 32px;
+}
+
+.service-details li {
+  font-family: var(--ff-secondary);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  padding-left: 14px;
+  position: relative;
+}
+
+.service-details li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 1px;
+  background: var(--text-muted);
+}
+
+/* ── CTA ─────────────────────────── */
+
+.service-cta {
+  height: 40px;
+  padding: 0 20px;
+  font-size: 11px;
+}
+
+/* ── Mobile ─────────────────────────── */
+
+@media (max-width: 900px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-card {
+    padding: 32px 24px 28px;
+  }
+}
+
+/* ══════════════ FILM ════════════════ */
+
+.film {
+  background: var(--bg-base);
+  /* Override section padding-inline — track bleeds to edge */
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.film-header {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ── Scroll track ─────────────────────────── */
+
+.film-track-wrap {
+  position: relative;
+}
+
+.film-track {
+  display: flex;
+  gap: 12px;
+  padding: 0 var(--gutter);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  /* Hide scrollbar visually — still scrollable */
+  scrollbar-width: none;
+}
+
+.film-track::-webkit-scrollbar {
+  display: none;
+}
+
+.film-track.dragging {
+  cursor: grabbing;
+  /* Disable snap while dragging for smooth feel */
+  scroll-snap-type: none;
+}
+
+/* ── Individual card ─────────────────────────── */
+
+.film-card {
+  position: relative;
+  flex-shrink: 0;
+  width: 260px;           /* portrait card width */
+  aspect-ratio: 9 / 16;  /* true vertical video ratio */
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--surface-1);
+  scroll-snap-align: start;
+}
+
+.film-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Pause by default — JS plays on intersect */
+}
+
+/* ── Play overlay ─────────────────────────── */
+
+.film-card-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 10, 0.3);
+  transition: background 0.25s ease, opacity 0.25s ease;
+  z-index: 2;
+}
+
+/* Once playing, dim the overlay and shrink it */
+.film-card.playing .film-card-overlay {
+  background: transparent;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.film-play-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(10, 10, 10, 0.6);
+  border: 1px solid rgba(240, 240, 240, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.film-play-btn:hover {
+  transform: scale(1.08);
+  background: rgba(10, 10, 10, 0.8);
+}
+
+/* ── Mute toggle ─────────────────────────── */
+
+.film-card-mute {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 3;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(10, 10, 10, 0.55);
+  border: 1px solid rgba(240, 240, 240, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  cursor: pointer;
+  opacity: 0;           /* hidden until playing */
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.film-card.playing .film-card-mute {
+  opacity: 1;
+}
+
+.film-card-mute:hover {
+  color: var(--text-primary);
+}
+
+/* Swap icon when unmuted */
+.film-card.unmuted .film-card-mute .mute-icon {
+  /* JS swaps the SVG path — this is a hook for the unmuted state */
+  color: var(--accent);
+}
+
+/* ── Drag hint ─────────────────────────── */
+
+.film-drag-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: flex-end;
+  padding: 12px var(--gutter) 0;
+  font-family: var(--ff-secondary);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: opacity 0.4s ease;
+}
+
+.film-drag-hint.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── Mobile ─────────────────────────── */
+
+@media (max-width: 600px) {
+  .film-card {
+    width: 200px;
+  }
+}
+
+
+/* ══════════════ BOOKING ════════════════ */
+
+.booking {
+  background: var(--surface-1);
+}
+
+.booking-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 100px);
+  align-items: start;
+}
+
+/* ── Left column ─────────────────────────── */
+
+.booking-sub {
+  font-family: var(--ff-secondary);
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  max-width: 400px;
+  margin-top: -24px; /* pull up under section-title which has mb:48px */
+  margin-bottom: 40px;
+}
+
+.booking-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.booking-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.booking-meta-label {
+  font-family: var(--ff-secondary);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.booking-meta-value {
+  font-family: var(--ff-secondary);
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* ── Right column / form ─────────────────────────── */
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-family: var(--ff-secondary);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.form-input {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px 16px;
+  font-family: var(--ff-secondary);
+  font-size: 14px;
+  color: var(--text-primary);
+  width: 100%;
+  transition: border-color 0.2s ease;
+  /* Remove default browser appearance */
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.form-input::placeholder {
+  color: var(--text-muted);
+}
+
+.form-input:focus {
+  border-color: var(--border-focus);
+}
+
+/* ── Select wrapper (custom chevron) ─────────────────────────── */
+
+.form-select-wrap {
+  position: relative;
+}
+
+.form-select {
+  cursor: pointer;
+  padding-right: 40px; /* room for the chevron */
+}
+
+/* Style the select options — limited cross-browser but acceptable */
+.form-select option {
+  background: var(--surface-2);
+  color: var(--text-primary);
+}
+
+.form-select-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none; /* let clicks pass through to the select */
+}
+
+/* ── Textarea ─────────────────────────── */
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+/* ── Submit ─────────────────────────── */
+
+.booking-submit {
+  width: 100%;
+  justify-content: center;
+  height: 52px;
+  font-size: 13px;
+}
+
+.booking-note {
+  font-family: var(--ff-secondary);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: -8px;
+}
+
+/* ── Mobile ─────────────────────────── */
+
+@media (max-width: 768px) {
+  .booking-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .booking-sub {
+    max-width: 100%;
+  }
+}
+
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+.input-error {
+  animation: shake 0.4s ease;
+  border-color: var(--error) !important;
+}
+
+

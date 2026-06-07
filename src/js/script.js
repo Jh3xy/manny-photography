@@ -10,14 +10,21 @@ import '../css/style.css'
 // ── Modules ──────────
 import { initNav }    from './nav.js'
 import { initReveal } from './reveal.js'
-
 import { initWorkGallery, initLightbox } from "./gallery.js";
+import { initBooking } from "./bookings.js";
+import { initFilm } from "./film.js";
 
-initWorkGallery();
-initLightbox();
+
 
 initNav()
 initReveal()
+initWorkGallery();
+initLightbox();
+
+initFilm();
+initBooking();
+
+
 
 
 

@@ -5,7 +5,7 @@
  * Builds the Work section masonry grid and controls the shared lightbox.
  *
  * WORK_PHOTOS: the 12 curated preview photos for the Work section.
- * Swap in whichever photo filenames Manny wants featured.
+ * Swap in whichever photo filenames we want featured.
  * When the /gallery page is built, it will import initLightbox()
  * and run its own grid against the full 62-photo set.
  */
@@ -17,16 +17,20 @@ import Masonry from 'masonry-layout';
 // Update filenames here to change which photos appear.
 // Format: { file: 'filename.jpg', alt: 'description' }
 const WORK_PHOTOS = [
-  { file: 'photo-16.jpg',  alt: 'Portrait session' },
+  { file: 'photo-30.jpg',  alt: 'Portrait session' },
+  { file: 'photo-36.jpg',  alt: 'Portrait session' },
+  { file: 'photo-37.jpg',  alt: 'Portrait session' },
+  { file: 'photo-35.jpg',  alt: 'Portrait session' },
+  { file: 'photo-32.jpg',  alt: 'Portrait session' },
   { file: 'photo-25.jpg',  alt: 'Event coverage' },
-  { file: 'photo-27.jpg',  alt: 'Fashion editorial' },
-  { file: 'photo-24.jpg', alt: 'Portrait session' },
+  { file: 'photo-40.jpg',  alt: 'Fashion editorial' },
+  { file: 'photo-28.jpg', alt: 'Portrait session' },
   { file: 'photo-21.jpg', alt: 'Event coverage' },
   { file: 'photo-20.jpg', alt: 'Portrait session' },
-  { file: 'photo-26.jpg', alt: 'Fashion editorial' },
-  { file: 'photo-17.jpg', alt: 'Event coverage' },
-  { file: 'photo-12.jpg', alt: 'Portrait session' },
+  { file: 'photo-38.jpg', alt: 'Fashion editorial' },
+  { file: 'photo-30.jpg', alt: 'Portrait session' },
   { file: 'photo-19.jpg', alt: 'Fashion editorial' },
+  { file: 'photo-31.jpg', alt: 'Event coverage' },
   { file: 'photo-18.jpg', alt: 'Event coverage' },
   { file: 'photo-23.jpg', alt: 'Portrait session' },
 ];
