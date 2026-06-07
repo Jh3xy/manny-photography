@@ -11,6 +11,11 @@ import '../css/style.css'
 import { initNav }    from './nav.js'
 import { initReveal } from './reveal.js'
 
+import { initWorkGallery, initLightbox } from "./gallery.js";
+
+initWorkGallery();
+initLightbox();
+
 initNav()
 initReveal()
 
