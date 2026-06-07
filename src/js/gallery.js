@@ -17,18 +17,18 @@ import Masonry from 'masonry-layout';
 // Update filenames here to change which photos appear.
 // Format: { file: 'filename.jpg', alt: 'description' }
 const WORK_PHOTOS = [
-  { file: 'photo-1.jpg',  alt: 'Portrait session' },
-  { file: 'photo-2.jpg',  alt: 'Event coverage' },
-  { file: 'photo-3.jpg',  alt: 'Fashion editorial' },
-  { file: 'photo-4.jpg', alt: 'Portrait session' },
-  { file: 'photo-5.jpg', alt: 'Event coverage' },
-  { file: 'photo-6.jpg', alt: 'Portrait session' },
-  { file: 'photo-7.jpg', alt: 'Fashion editorial' },
-  { file: 'photo-8.jpg', alt: 'Event coverage' },
-  { file: 'photo-10.jpg', alt: 'Portrait session' },
-  { file: 'photo-13.jpg', alt: 'Fashion editorial' },
-  { file: 'photo-14.jpg', alt: 'Event coverage' },
-  { file: 'photo-15.jpg', alt: 'Portrait session' },
+  { file: 'photo-16.jpg',  alt: 'Portrait session' },
+  { file: 'photo-25.jpg',  alt: 'Event coverage' },
+  { file: 'photo-27.jpg',  alt: 'Fashion editorial' },
+  { file: 'photo-24.jpg', alt: 'Portrait session' },
+  { file: 'photo-21.jpg', alt: 'Event coverage' },
+  { file: 'photo-20.jpg', alt: 'Portrait session' },
+  { file: 'photo-26.jpg', alt: 'Fashion editorial' },
+  { file: 'photo-17.jpg', alt: 'Event coverage' },
+  { file: 'photo-12.jpg', alt: 'Portrait session' },
+  { file: 'photo-19.jpg', alt: 'Fashion editorial' },
+  { file: 'photo-18.jpg', alt: 'Event coverage' },
+  { file: 'photo-23.jpg', alt: 'Portrait session' },
 ];
 
 // ── Grid builder ──────────────────────────────────────────

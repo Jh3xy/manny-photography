@@ -124,8 +124,8 @@
 
 .nav.scrolled {
   background: rgba(10, 10, 10, 0.92);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
 }
 
 .nav-wordmark {
