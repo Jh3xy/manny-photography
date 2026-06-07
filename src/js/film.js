@@ -1,5 +1,4 @@
 
-
 /**
  * film.js
  * Handles:
@@ -19,23 +18,20 @@ export function initFilm() {
   cards.forEach(card => {
     const video   = card.querySelector('.film-video');
     const overlay = card.querySelector('.film-card-overlay');
-    const playBtn = card.querySelector('.film-play-btn');
     const muteBtn = card.querySelector('.film-card-mute');
 
     if (!video) return;
 
-    // ── Play / pause on overlay click ──
-    overlay.addEventListener('click', () => togglePlay(card, video));
-    // Also allow re-pausing by clicking card when playing
+    // ── Single click handler on the CARD level only ──
     card.addEventListener('click', e => {
-      if (card.classList.contains('playing') && e.target !== muteBtn && !muteBtn.contains(e.target)) {
-        togglePlay(card, video);
-      }
+      // Mute button has its own handler — don't interfere
+      if (e.target === muteBtn || muteBtn.contains(e.target)) return;
+      togglePlay(card, video);
     });
 
     // ── Mute toggle ──
     muteBtn.addEventListener('click', e => {
-      e.stopPropagation(); // don't trigger card click
+      e.stopPropagation(); // belt-and-suspenders: still stop propagation
       toggleMute(card, video, muteBtn);
     });
   });
@@ -74,8 +70,8 @@ function togglePlay(card, video) {
     });
 
     video.play().catch(() => {
-      // Autoplay blocked — user interaction should have unlocked it,
-      // but handle gracefully just in case
+      // Autoplay policy blocked it — shouldn't happen on direct click
+      // but handle gracefully
     });
     card.classList.add('playing');
   }
@@ -85,7 +81,6 @@ function toggleMute(card, video, muteBtn) {
   video.muted = !video.muted;
   card.classList.toggle('unmuted', !video.muted);
 
-  // Swap the SVG icon between muted and unmuted states
   muteBtn.innerHTML = video.muted
     ? `<svg class="mute-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M11 5 6 9H2v6h4l5 4V5z"/>
@@ -105,10 +100,13 @@ function initDragScroll(track, dragHint) {
   let isDragging  = false;
   let startX      = 0;
   let scrollStart = 0;
-  let hasDragged  = false; // track whether user has interacted
+  let hasDragged  = false;
+  // Track whether mouse moved enough to count as a drag vs a click
+  let didMove     = false;
 
   track.addEventListener('mousedown', e => {
     isDragging  = true;
+    didMove     = false;
     startX      = e.pageX - track.offsetLeft;
     scrollStart = track.scrollLeft;
     track.classList.add('dragging');
@@ -118,7 +116,9 @@ function initDragScroll(track, dragHint) {
     if (!isDragging) return;
     e.preventDefault();
     const x    = e.pageX - track.offsetLeft;
-    const walk = (x - startX) * 1.2; // slight multiplier for feel
+    const walk = (x - startX) * 1.2;
+    // Only count as a real drag if moved more than 5px
+    if (Math.abs(walk) > 5) didMove = true;
     track.scrollLeft = scrollStart - walk;
   });
 
@@ -127,8 +127,7 @@ function initDragScroll(track, dragHint) {
     isDragging = false;
     track.classList.remove('dragging');
 
-    // Hide drag hint after first use
-    if (!hasDragged && dragHint) {
+    if (!hasDragged && didMove && dragHint) {
       hasDragged = true;
       dragHint.classList.add('hidden');
     }
@@ -137,7 +136,17 @@ function initDragScroll(track, dragHint) {
   track.addEventListener('mouseup', stopDrag);
   track.addEventListener('mouseleave', stopDrag);
 
-  // Also hide hint on touch scroll
+  // On mouseup after a drag, stop the click from firing on the card
+  // by checking didMove in the card's click handler isn't needed —
+  // the card listeners check the mute button, not drag state.
+  // But prevent click from firing after drag:
+  track.addEventListener('click', e => {
+    if (didMove) {
+      e.stopPropagation();
+      didMove = false;
+    }
+  }, true); // capture phase so it fires before card listeners
+
   track.addEventListener('touchstart', () => {
     if (!hasDragged && dragHint) {
       hasDragged = true;
