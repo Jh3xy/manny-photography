@@ -731,19 +731,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* hidden attr handles display:none — opacity handles the fade */
+  /* Closed state: invisible + non-interactive.
+     visibility:hidden also hides children from tab order.
+     opacity handles the fade. Both transition together. */
   opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-/* When JS removes [hidden], we immediately make it flex,
-   then the .open class triggers the opacity fade */
-.lightbox:not([hidden]) {
-  display: flex;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .lightbox.open {
   opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .lightbox-backdrop {
@@ -861,3 +861,4 @@
     height: 36px;
   }
 }
+ 

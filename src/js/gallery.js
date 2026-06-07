@@ -134,12 +134,9 @@ export function openLightbox(index, photos) {
   const lb = document.getElementById('lightbox');
   if (!lb) return;
 
-  // Remove hidden attr first so the element is in the DOM,
-  // then add .open on the next frame so the CSS transition fires.
-  lb.removeAttribute('hidden');
-  requestAnimationFrame(() => lb.classList.add('open'));
-
-  document.body.style.overflow = 'hidden'; // prevent scroll behind lightbox
+  // CSS handles visibility — just toggle .open
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
   setLightboxImage(_currentIndex);
 }
 
@@ -149,11 +146,8 @@ function closeLightbox() {
 
   lb.classList.remove('open');
   document.body.style.overflow = '';
-
-  // Re-add hidden after transition so it's fully removed from tab order
-  lb.addEventListener('transitionend', () => {
-    if (!lb.classList.contains('open')) lb.setAttribute('hidden', '');
-  }, { once: true });
+  // CSS visibility:hidden takes over after the opacity transition,
+  // so no need to manually set hidden or listen for transitionend
 }
 
 function navigateLightbox(direction) {
@@ -175,4 +169,3 @@ function setLightboxImage(index) {
     img.style.opacity = '1';
   }, 180);
 }
-
