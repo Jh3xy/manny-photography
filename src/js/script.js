@@ -22,7 +22,7 @@ function initHero() {
 
   const images = heroMedia.querySelectorAll("img");
   let loaded = 0;
-  const threshold = Math.ceil(images.length * 0.6);
+  const threshold = Math.ceil(images.length * 0.9);
 
   function onLoad() {
     loaded++;
