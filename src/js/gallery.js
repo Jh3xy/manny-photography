@@ -11,6 +11,7 @@
  */
 
 import Masonry from 'masonry-layout';
+import imagesLoaded from "imagesloaded";
 
 // ── Photo list ────────────────────────────────────────────
 // These are the 12 hand-picked preview shots for the Work section.
@@ -49,7 +50,6 @@ export function initWorkGallery() {
       <img
         src="/assets/images/${photo.file}"
         alt="${photo.alt}"
-        loading="lazy"
       />
       <div class="work-item-overlay">
         <div class="work-item-icon">
@@ -63,28 +63,7 @@ export function initWorkGallery() {
     grid.appendChild(item);
   });
 
-  // Wait for images to load before initialising Masonry.
-  // If we init before images have dimensions, Masonry can't
-  // calculate column heights and items stack incorrectly.
-  const images = grid.querySelectorAll('img');
-  let loaded = 0;
-
-  function onImageLoad() {
-    loaded++;
-    if (loaded === images.length) initMasonry(grid);
-  }
-
-  images.forEach(img => {
-    if (img.complete) {
-      onImageLoad();
-    } else {
-      img.addEventListener('load', onImageLoad);
-      img.addEventListener('error', onImageLoad); // still count broken images
-    }
-  });
-
-  // Fallback: init after 2s regardless (handles slow connections)
-  setTimeout(() => initMasonry(grid), 2000);
+  imagesLoaded(grid, () => initMasonry(grid));
 }
 
 function initMasonry(grid) {
