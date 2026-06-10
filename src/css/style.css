@@ -104,6 +104,10 @@
   align-items: center;
   justify-content: center; */
 }
+.nav-links .btn-solid{
+  padding: 6px 20px;
+  border-radius: 2px;
+}
 
 .btn-solid:hover {
   background: var(--accent-hover);
@@ -608,6 +612,7 @@
   top: 80px; /* clears the fixed nav */
   height: calc(100vh - 120px);
   max-height: 85vh;
+  background: var(--surface-1);
 }
 
 .reveal-left {

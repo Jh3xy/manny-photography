@@ -44,7 +44,7 @@ function initHero() {
       heroMedia.classList.add("loaded");
       initHeroAnimation();
     }
-  }, 4000);
+  }, 3000);
 }
 
 initNav();
