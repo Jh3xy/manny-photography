@@ -1,20 +1,17 @@
-
-
-
 // ── CSS ────
-import '../css/variables.css'
-import '../css/fonts.css'
-import '../css/base.css'
-import '../css/utils.css'
-import '../css/style.css'
+import "../css/variables.css";
+import "../css/fonts.css";
+import "../css/base.css";
+import "../css/utils.css";
+import "../css/style.css";
 
 // ── Modules ──────────
-import { initNav }    from './nav.js'
-import { initReveal } from './reveal.js'
-import { initWorkGallery, initLightbox } from './gallery.js'
-import { initBooking } from './bookings.js'
-import { initFilm } from './film.js'
-
+import { initNav } from "./nav.js";
+import { initReveal } from "./reveal.js";
+import { initWorkGallery, initLightbox } from "./gallery.js";
+import { initBooking } from "./bookings.js";
+import { initFilm } from "./film.js";
+import { initHeroAnimation, initCountUp } from "./anim.js";
 
 function initHero() {
   const heroMedia = document.querySelector(".hero-media");
@@ -28,6 +25,7 @@ function initHero() {
     loaded++;
     if (loaded >= threshold) {
       heroMedia.classList.add("loaded");
+      initHeroAnimation();
     }
   }
 
@@ -41,23 +39,22 @@ function initHero() {
   });
 
   // Fallback: show after 4s no matter what — bad network shouldn't freeze the hero
-  setTimeout(() => heroMedia.classList.add("loaded"), 4000);
+  setTimeout(() => {
+    if (!heroMedia.classList.contains("loaded")) {
+      heroMedia.classList.add("loaded");
+      initHeroAnimation();
+    }
+  }, 4000);
 }
 
-
-initNav()
-initHero()
-initWorkGallery()
-initLightbox()
-initFilm()
-initBooking()
-
+initNav();
+initHero();
+initWorkGallery();
+initLightbox();
+initFilm();
+initBooking();
+initCountUp();
 
 // initReveal MUST run last — it queries .reveal once at call time.
 // Any JS that dynamically creates .reveal elements must finish first.
-initReveal()
-
-
-
-
-
+initReveal();

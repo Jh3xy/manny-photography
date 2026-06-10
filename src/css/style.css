@@ -98,7 +98,11 @@
 .btn-solid {
   background: var(--accent);
   border: 1px solid var(--accent);
-  color: var(--bg-base);
+  color: var(--bg-base) !important;
+  padding: 28px;
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
 }
 
 .btn-solid:hover {
