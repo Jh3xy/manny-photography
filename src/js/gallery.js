@@ -11,6 +11,15 @@
 import Masonry from "masonry-layout";
 import imagesLoaded from "imagesloaded";
 
+const WORK_PHOTO_URLS = Object.fromEntries(
+  Object.entries(
+    import.meta.globEager("../img/*.{jpg,png}", { as: "url" })
+  ).map(([path, url]) => {
+    const file = path.replace(/^.*\/([^/]+)$/, "$1");
+    return [file, url];
+  })
+);
+
 // ── Photo list ────────────────────────────────────────────
 // These are the 12 hand-picked preview shots for the Work section.
 // Update filenames here to change which photos appear.
@@ -48,7 +57,7 @@ export function initWorkGallery() {
     item.style.setProperty("--reveal-delay", `${(index % 4) * 80}ms`);
     item.innerHTML = `
       <img
-        src="/assets/images/${photo.file}"
+        src="${WORK_PHOTO_URLS[photo.file]}"
         alt="${photo.alt}"
       />
       <div class="work-item-overlay">
@@ -147,7 +156,7 @@ function setLightboxImage(index) {
   img.style.transition = "opacity 0.2s ease";
 
   setTimeout(() => {
-    img.src = `/assets/images/${_photos[index].file}`;
+    img.src = WORK_PHOTO_URLS[_photos[index].file];
     img.alt = _photos[index].alt;
     img.style.opacity = "1";
   }, 180);
