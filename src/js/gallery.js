@@ -13,11 +13,11 @@ import imagesLoaded from "imagesloaded";
 
 const WORK_PHOTO_URLS = Object.fromEntries(
   Object.entries(
-    import.meta.globEager("../img/*.{jpg,png}", { as: "url" })
+    import.meta.globEager("../img/*.{jpg,png}", { as: "url" }),
   ).map(([path, url]) => {
     const file = path.replace(/^.*\/([^/]+)$/, "$1");
     return [file, url];
-  })
+  }),
 );
 
 // ── Photo list ────────────────────────────────────────────
